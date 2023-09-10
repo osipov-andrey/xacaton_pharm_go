@@ -7,6 +7,7 @@ authors = ["Andrey A. Osipov <developer.osipov@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 pydantic = "^2.3.0"
+scrapy = "^2.10.1"
 
 quart = "^0.18.4"
 punq = "^0.6.2"
