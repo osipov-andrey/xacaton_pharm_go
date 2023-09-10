@@ -7,3 +7,5 @@ for run scrapper:
 - cd to scrpper dir 
 - install scrapy (poetry add scrapy)
 - type `scrapy crawl medscrapper`
+
+scrapper now scrap just one page in each category from  `https://www.aversi.ge/en/medikamentebi`
