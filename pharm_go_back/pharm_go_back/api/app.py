@@ -1,8 +1,30 @@
+import punq
 from quart import Quart, request, jsonify  # Use 'quart.jsonify' for Quart
 import json
 import subprocess
 
+from repository.interface import Med, MedsRepoProto, MedInfo
+
 app = Quart(__name__)
+
+
+@app.route("/med", methods=["POST"])
+async def save_med():
+    repo: MedsRepoProto = container.resolve(MedsRepoProto)
+    body = await request.get_data()
+    meds = [Med(**med) for med in json.loads(body)]
+    print(meds)
+    for med in meds:
+        await repo.save_med(med)
+    return f"{len(meds)} meds have been saved", 201
+
+
+@app.route("/med/<name>", methods=["GET"])
+async def get_med(name: str) -> MedInfo:
+    repo: MedsRepoProto = container.resolve(MedsRepoProto)
+    med_info = await repo.get_med(name)
+    return med_info
+
 
 @app.route("/search", methods=["POST", "GET"])
 async def search_medicine():
@@ -21,5 +43,10 @@ async def search_medicine():
         print("error", str(e))
         return jsonify({"error": str(e)})
 
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    container = punq.Container()
+    container.register(MedsRepoProto, MedsRepoProto)
+    app.config["container"] = container
+
+    app.run(host="0.0.0.0", port=5005, debug=True)
