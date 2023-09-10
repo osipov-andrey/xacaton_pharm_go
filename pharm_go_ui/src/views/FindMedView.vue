@@ -5,7 +5,7 @@
     <button @click="getMeds">Find Med</button>
     <br>
     <div>
-      <pre>{{ med }}</pre>
+      <pre v>{{ med }}</pre>
     </div>
   </div>
 </template>
