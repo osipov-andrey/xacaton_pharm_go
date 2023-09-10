@@ -3,7 +3,7 @@ from quart import Quart, request, jsonify  # Use 'quart.jsonify' for Quart
 import json
 import subprocess
 
-from repository.interface import Med, MedsRepoProto, MedInfo
+from repository.interface import Med, MedsRepoProto
 from repository.local_repo import MedsRepoLocal
 
 app = Quart(__name__)
@@ -18,6 +18,12 @@ async def save_med():
     for med in meds:
         await repo.save_med(med)
     return f"{len(meds)} meds have been saved", 201
+
+
+@app.route("/med", methods=["GET"])
+async def get_meds() -> dict:
+    repo: MedsRepoProto = container.resolve(MedsRepoProto)
+    return await repo.get_meds()
 
 
 @app.route("/med/<name>", methods=["GET"])
@@ -47,7 +53,7 @@ async def search_medicine():
 
 if __name__ == "__main__":
     container = punq.Container()
-    container.register(MedsRepoProto, MedsRepoLocal)
+    container.register(MedsRepoProto, instance=MedsRepoLocal())
     app.config["container"] = container
 
     app.run(host="0.0.0.0", port=5005, debug=True)

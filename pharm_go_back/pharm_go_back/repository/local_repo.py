@@ -27,6 +27,9 @@ class MedsRepoLocal:
             ]
         }
 
+    async def get_meds(self) -> dict:
+        return self._repo
+
     async def get_med(self, med_name: str) -> MedInfo | None:
         if med := self._repo.get(med_name):
             med_info = {
