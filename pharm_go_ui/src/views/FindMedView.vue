@@ -4,8 +4,9 @@
     <input v-model="query">
     <button @click="getMeds">Find Med</button>
     <br>
-    <div>
-      <pre v>{{ med }}</pre>
+    <div v-if="med">
+      <h2>Fetched Data:</h2>
+      <pre>{{ med }}</pre>
     </div>
   </div>
 </template>
@@ -16,22 +17,16 @@ import axios from "axios";
 export default {
   setup() {
     let query = ""
-    let med = []
+    let med = undefined
 
-    function getMeds() {
+    async function getMeds() {
       // .value is needed in JavaScript
       console.log(`GET MEDS: ${this.query}`)
       // const axios = require('axios');
-      axios({
-        method: 'get',
-        url: `http://192.168.10.104:5005/med/${this.query}`,
-      }).then(
-          ({data}) => {
-            console.log(data)
-            this.med = data
-          }
-      )
 
+      const response = await axios.get(`http://192.168.10.104:5005/med/${this.query}`);
+      this.med = response.data
+      console.log(this.med)
     }
 
     // don't forget to expose the function as well.
