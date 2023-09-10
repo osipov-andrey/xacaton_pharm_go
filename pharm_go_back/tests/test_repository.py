@@ -4,7 +4,7 @@ from repository.interface import MedsRepoProto, Med
 new_meds_info = [
     {
         "name": "smekta",
-        "price": 3200,
+        "price": 3300,
         "pharmacy": "psp"
     },
     {
@@ -31,8 +31,8 @@ async def test_repo_save_new_elem(repository: MedsRepoProto):
         "name": "smekta",
         "pharmacies": [
             {
-                "price": 1100,
-                "pharmacy": "jpc"
+                "price": 3300,
+                "pharmacy": "psp"
             },
             {
                 "price": 3200,

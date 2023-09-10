@@ -4,6 +4,7 @@ import json
 import subprocess
 
 from repository.interface import Med, MedsRepoProto, MedInfo
+from repository.local_repo import MedsRepoLocal
 
 app = Quart(__name__)
 
@@ -20,10 +21,10 @@ async def save_med():
 
 
 @app.route("/med/<name>", methods=["GET"])
-async def get_med(name: str) -> MedInfo:
+async def get_med(name: str) -> dict:
     repo: MedsRepoProto = container.resolve(MedsRepoProto)
     med_info = await repo.get_med(name)
-    return med_info
+    return med_info.model_dump()
 
 
 @app.route("/search", methods=["POST", "GET"])
@@ -46,7 +47,7 @@ async def search_medicine():
 
 if __name__ == "__main__":
     container = punq.Container()
-    container.register(MedsRepoProto, MedsRepoProto)
+    container.register(MedsRepoProto, MedsRepoLocal)
     app.config["container"] = container
 
     app.run(host="0.0.0.0", port=5005, debug=True)
