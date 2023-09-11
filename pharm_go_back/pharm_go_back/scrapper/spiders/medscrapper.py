@@ -25,7 +25,7 @@ class MedscrapperSpider(scrapy.Spider):
                 price = float(price_text)
             except:
                 price = 0
-            name = item.css('.product-title::text').get().replace(' ', '_')
+            name = item.css('.product-title::text').get().replace(' ', '_').replace('#', '')
             data.append({
                 'name': name,
                 'price': int(price*100),
