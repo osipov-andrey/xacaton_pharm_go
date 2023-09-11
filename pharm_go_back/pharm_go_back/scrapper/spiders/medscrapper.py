@@ -15,7 +15,7 @@ class MedscrapperSpider(scrapy.Spider):
             link = cat.css('a').attrib['href']
             yield response.follow(link, callback=self.parse_category)
 
-    def parse_category(self,response):
+    def parse_category(self, response):
         items = response.css('.product-details')
         data = []
         for item in items:
@@ -32,7 +32,8 @@ class MedscrapperSpider(scrapy.Spider):
                 'pharmacy': 'Aversi'
             })
         json_payload = json.dumps(data)
-        print(json_payload)
+
+        # print(json_payload)
         headers = {
             'Content-Type': 'application/json',
         }
@@ -42,11 +43,14 @@ class MedscrapperSpider(scrapy.Spider):
             headers=headers,
             method='POST',
             data=data,
-            dont_filter=True
-            # callback=self.parse_json_response
+            dont_filter=True,
+            callback=self.parse_json_response
         )
-        # self.logger.info("Start requests method executed.", request)
         yield request
+        next_page = response.css('[rel="next"] ::attr(href)').get()
+
+        if next_page is not None:
+            yield response.follow(next_page, callback=self.parse_category)
 
     def parse_json_response(self, response):
         try:
