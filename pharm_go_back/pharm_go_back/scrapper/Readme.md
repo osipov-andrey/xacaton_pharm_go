@@ -1,11 +1,15 @@
-into scrapper need set:
-- in scrapper/spiders/medscrapper.py
-        41 string - set backend url which will be used for POST result
 
-for run scrapper:
+Scrapper fetch data from following brands:
+- Aversi
+- PSP
 
-- cd to scrpper dir 
-- install scrapy (poetry add scrapy)
-- type `scrapy crawl medscrapper`
+## SETUP
+- install scrapy `poetry add scrapy`
+  - or just type `poetry install`
+- in scrapper/settings.py set BACKEND_ADDRESS 
 
-scrapper now scrap just one page in each category from  `https://www.aversi.ge/en/medikamentebi`
+## RUN
+- type `poetry run crawl`
+
+Or you can manually run `run.py` script from scrapper dir
+

@@ -41,3 +41,6 @@ extend-ignore = 'E203'
 max-line-length = 100
 count = true
 statistics = true
+
+[tool.poetry.scripts]
+crawl = "pharm_go_back.scrapper.run:main"
