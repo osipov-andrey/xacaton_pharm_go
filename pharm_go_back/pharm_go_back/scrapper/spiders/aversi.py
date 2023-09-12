@@ -1,11 +1,12 @@
 import scrapy
-from scrapy.http import JsonRequest
 import re
 import json
 
+from .lib.process_result import send_result_data
+
 
 class MedscrapperSpider(scrapy.Spider):
-    name = "medscrapper"
+    name = "aversi"
     allowed_domains = ["www.aversi.ge"]
     start_urls = ["https://www.aversi.ge/en/medikamentebi"]
 
@@ -31,22 +32,7 @@ class MedscrapperSpider(scrapy.Spider):
                 'price': int(price*100),
                 'pharmacy': 'Aversi'
             })
-        json_payload = json.dumps(data)
-
-        # print(json_payload)
-        headers = {
-            'Content-Type': 'application/json',
-        }
-
-        request = JsonRequest(
-            url='http://192.168.10.104:5005/med',
-            headers=headers,
-            method='POST',
-            data=data,
-            dont_filter=True,
-            callback=self.parse_json_response
-        )
-        yield request
+        yield send_result_data(data)
         next_page = response.css('[rel="next"] ::attr(href)').get()
 
         if next_page is not None:
