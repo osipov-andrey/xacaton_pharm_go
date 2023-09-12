@@ -12,6 +12,7 @@ BOT_NAME = "pharmgo"
 SPIDER_MODULES = ["spiders"]
 NEWSPIDER_MODULE = "spiders"
 
+BACKEND_ADDRESS = 'http://localhost:8080/med'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "pharmgo (+http://www.yourdomain.com)"

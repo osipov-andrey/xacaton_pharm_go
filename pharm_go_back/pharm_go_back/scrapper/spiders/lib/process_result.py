@@ -1,11 +1,11 @@
 from scrapy.http import JsonRequest
+from scrapy.utils.project import get_project_settings
 
-BACKEND_ADDRESS = 'http://localhost:8080/med'
 
 
 def send_result_data(data):
     return JsonRequest(
-        url=BACKEND_ADDRESS,
+        url=get_project_settings().get('BACKEND_ADDRESS'),
         headers={'Content-Type': 'application/json'},
         method='POST',
         data=data,
